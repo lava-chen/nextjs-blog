@@ -1,0 +1,56 @@
+import BlogStatus from "@/components/ui/dashboard/status";
+import client from "@/lib/route";
+export async function getBlogs() {
+  await client.connect();
+  try {
+    const db = client.db("blog");
+    const blogs = await db.collection("blogs").find({}).toArray();
+    return blogs;
+  } catch (error) {
+    console.error("获取博客列表时出错:", error);
+    throw error;
+  }
+}
+const ITEMS_PER_PAGE = 6;
+
+export async function getBlogsPage(query: string) {
+  try {
+    await client.connect();
+    const db = client.db("blog");
+
+    // 获取满足条件的博客数量
+    const count = await db.collection("blogs").countDocuments({
+      $or: [
+        { title: { $regex: query, $options: "i" } }, // 忽略大小写的标题匹配
+        { content: { $regex: query, $options: "i" } }, // 忽略大小写的内容匹配
+      ],
+    });
+
+    // 返回计算出的页数
+    return Math.ceil(count / ITEMS_PER_PAGE);
+  } catch (error) {
+    console.error("获取博客页数时出错:", error); // 错误处理
+    throw new Error("无法获取博客页数"); // 抛出错误
+  } finally {
+    await client.close(); // 在 finally 块中关闭连接
+  }
+}
+
+export async function getFilteredBlogs(query: string, currentPage: number) {
+  await client.connect();
+  try {
+    const db = client.db("blog");
+    const blogs = await db
+      .collection("blogs")
+      .find({
+        $or: [
+          { title: { $regex: query, $options: "i" } }, // 忽略大小写的标题匹配
+          { content: { $regex: query, $options: "i" } }, // 忽略大小写的内容匹配
+        ],
+      })
+      .toArray();
+    return blogs;
+  } finally {
+    await client.close(); // 在 finally 块中关闭连接
+  }
+}
