@@ -1,23 +1,17 @@
-import { MDXLayoutRenderer } from "pliny/mdx-components";
-import { getBlogs } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import siteMetadata from "@/data/siteMetaData";
 import type { Blog } from "@/lib/definitions";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import {
-  sortPosts,
-  coreContent,
-  allCoreContent,
-} from "pliny/utils/contentlayer";
-import PostSimple from "@/components/layouts/PostSimple";
+import { remark } from "remark";
+import { getBlogs } from "@/lib/data";
 import React from "react";
-
-const defaultLayout = "PostLayout";
-type LayoutKey = "PostSimple" | "PostLayout" | "PostBanner";
-const layouts = {
-  PostSimple,
-};
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import remarkGfm from "remark-gfm";
+import "katex/dist/katex.min.css";
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string[] }>;
@@ -33,15 +27,15 @@ export async function generateMetadata(props: {
 
   const publishedAt = new Date(post.date).toISOString();
   const modifiedAt = new Date(post.lastmod || post.date).toISOString();
+
   let imageList = [siteMetadata.socialBanner];
   if (post.images) {
     imageList = typeof post.images === "string" ? [post.images] : post.images;
   }
-  const ogImages = imageList.map((img) => {
-    return {
-      url: img.includes("http") ? img : siteMetadata.siteUrl + img,
-    };
-  });
+
+  const ogImages = imageList.map((img) => ({
+    url: img.includes("http") ? img : siteMetadata.siteUrl + img,
+  }));
 
   return {
     title: post.title,
@@ -69,31 +63,44 @@ export async function generateMetadata(props: {
 export default async function Page(props: {
   params: Promise<{ slug: string[] }>;
 }) {
-  const params = await props.params; // 等待 params 被解析
+  const params = await props.params;
   const slug = decodeURI(params.slug.join("/"));
 
   const allBlogs = await getBlogs();
-  const sortedCoreContents = allCoreContent(sortPosts(allBlogs));
-  const postIndex = sortedCoreContents.findIndex((p: Blog) => p.slug === slug);
-  if (postIndex === -1) {
-    return notFound();
-  }
 
-  const prev = sortedCoreContents[postIndex + 1];
-  const next = sortedCoreContents[postIndex - 1];
   const post = allBlogs.find(
     (p: { slug: string }) => p.slug === slug
   ) as unknown as Blog;
+
   if (!post) {
-    // 处理找不到 post 的情况
     return notFound();
   }
+
   const markdown = await post.content;
-  const mainContent = coreContent(post);
+  const processedContent = await remark()
+    .use(remarkParse)
+    .use(remarkMath)
+    .use(remarkRehype)
+    .use(rehypeKatex)
+    .use(rehypeStringify)
+    .use(remarkGfm)
+
+    .process(markdown);
+  const contentHtml = processedContent.toString();
+  const publishedDate = new Date(post.date).toLocaleDateString();
 
   return (
     <>
-      <MDXRemote source={markdown} />
+      <div className="text-gray-500 dark:text-gray-400 mb-2 flex justify-center">
+        {publishedDate}
+      </div>{" "}
+      {/* 显示日期 */}
+      <div className="container flex  justify-center">
+        <div
+          className="prose dark:prose-dark"
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
+        />
+      </div>
     </>
   );
 }

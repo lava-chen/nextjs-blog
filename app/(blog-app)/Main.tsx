@@ -5,7 +5,8 @@ import { getBlogs } from "@/lib/data";
 
 const MAX_DISPLAY = 5;
 
-export default async function Home({ blogs }) {
+export default async function Home() {
+  const blogs = await getBlogs();
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">

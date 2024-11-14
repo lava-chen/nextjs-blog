@@ -1,12 +1,7 @@
-import { sortPosts, allCoreContent } from "pliny/utils/contentlayer.js";
-import { allPosts } from "contentlayer/generated";
-
 import Main from "./Main";
 
 export default function Home() {
-  const sortedPosts = sortPosts(allPosts);
-  const posts = allCoreContent(sortedPosts);
-  return <Main blogs={posts} />;
+  return <Main />;
 }
 // import Link from "next/link";
 // import { compareDesc, format, parseISO } from "date-fns";

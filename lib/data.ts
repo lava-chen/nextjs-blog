@@ -1,5 +1,6 @@
 import BlogStatus from "@/components/ui/dashboard/status";
 import client from "@/lib/route";
+
 export async function getBlogs() {
   await client.connect();
   try {
@@ -50,6 +51,17 @@ export async function getFilteredBlogs(query: string, currentPage: number) {
       })
       .toArray();
     return blogs;
+  } finally {
+    await client.close(); // 在 finally 块中关闭连接
+  }
+}
+
+export async function getUser(email: string) {
+  await client.connect();
+  try {
+    const db = client.db("blog");
+    const user = await db.collection("users").findOne({ email });
+    return user;
   } finally {
     await client.close(); // 在 finally 块中关闭连接
   }

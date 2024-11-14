@@ -145,3 +145,22 @@ export async function createBlog(prevState: State, formData: FormData) {
   revalidatePath("/dashboard/blogs");
   redirect("/dashboard/blogs");
 }
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch ((error as any).type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+}

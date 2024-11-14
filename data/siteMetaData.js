@@ -11,7 +11,7 @@ const siteMetadata = {
   socialBanner: `${process.env.BASE_PATH || ""}/static/images/twitter-card.png`,
   mastodon: "https://mastodon.social/@mastodonuser",
   email: "",
-  github: "https://github.com",
+  github: "https://github.com/lava-chen",
   x: "https://twitter.com/x",
   facebook: "https://facebook.com",
   youtube: "https://youtube.com",
@@ -19,6 +19,7 @@ const siteMetadata = {
   threads: "https://www.threads.net",
   instagram: "https://www.instagram.com",
   medium: "https://medium.com",
+  csdn: "https://blog.csdn.net/qq_55297504?spm=1000.2115.3001.5343",
   locale: "",
   // set to true if you want a navbar fixed to the top
   stickyNav: false,
