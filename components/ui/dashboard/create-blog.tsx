@@ -1,5 +1,5 @@
 "use client";
-import { Blog } from "@/lib/definitions";
+
 import Link from "next/link";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/dashboard/buttons";

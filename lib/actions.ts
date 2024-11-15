@@ -7,7 +7,7 @@ import { signIn } from "@/auth";
 import AuthError from "next-auth";
 import client from "@/lib/route"; // 假设您有一个数据库连接模块
 import { generateTOCFromMarkdown, calculateReadingTime } from "@/lib/utils";
-import { slug } from "github-slugger";
+
 import { ObjectId } from "mongodb";
 
 export async function deleteBlog(id: string) {

@@ -1,5 +1,4 @@
 import Link from "@/components/ui/Link";
-import Tag from "@/components/ui/Tag";
 import siteMetadata from "@/data/siteMetaData";
 import { getBlogs } from "@/lib/data";
 

@@ -1,6 +1,5 @@
 import Form from "@/components/ui/dashboard/create-blog";
 import Breadcrumbs from "@/components/ui/dashboard/breadcrumbs";
-import { getBlogs } from "@/lib/data";
 
 export default async function Page() {
   return (

@@ -1,4 +1,3 @@
-import Logo from "@/data/logo.svg";
 import LoginForm from "@/components/ui/dashboard/login-form";
 
 export default function LoginPage() {
