@@ -4,7 +4,7 @@ import { lusitana } from "@/components/ui/fonts";
 import Header from "@/components/ui/header";
 import { ThemeProviders } from "./theme-provider";
 import SectionContainer from "@/components/ui/SectionContainer";
-import siteMetadata from "@/data/siteMetaData";
+import { siteMetadata } from "@/data/siteMetaData";
 import Footer from "@/components/ui/footer";
 
 export const metadata: Metadata = {

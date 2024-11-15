@@ -24,13 +24,13 @@ const Page = async () => {
             .slice(0, MAX_DISPLAY)
             .map(
               (post: {
-                date: any;
-                slug?: any;
-                title?: any;
-                summary?: any;
-                tags?: any;
+                date: Date;
+                slug?: string;
+                title?: string;
+                summary?: string;
+                tags?: string[];
               }) => {
-                const { slug, date, title, summary, tags } = post;
+                const { slug, title, summary } = post;
                 return (
                   <li key={slug} className="py-12">
                     <article>

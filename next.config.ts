@@ -1,19 +1,12 @@
-const { withContentlayer } = require("next-contentlayer");
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    turbo: {
-      rules: {
-        "*.svg": {
-          loaders: ["@svgr/webpack"],
-          as: "*.js",
-        },
-      },
-    },
-  },
+const nextConfig: NextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  output: "standalone",
+  experimental: {
+    // logging: true, // 启用日志
+  },
+  /* config options here */
 };
 
-module.exports = withContentlayer(nextConfig);
+export default nextConfig;

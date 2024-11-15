@@ -1,7 +1,7 @@
-import BlogStatus from "@/components/ui/dashboard/status";
-import client from "@/lib/route";
+import clientPromise from "@/lib/route";
 
 export async function getBlogs() {
+  const client = await clientPromise;
   await client.connect();
   try {
     const db = client.db("blog");
@@ -15,6 +15,7 @@ export async function getBlogs() {
 const ITEMS_PER_PAGE = 6;
 
 export async function getBlogsPage(query: string) {
+  const client = await clientPromise;
   try {
     await client.connect();
     const db = client.db("blog");
@@ -37,7 +38,8 @@ export async function getBlogsPage(query: string) {
   }
 }
 
-export async function getFilteredBlogs(query: string, currentPage: number) {
+export async function getFilteredBlogs(query: string) {
+  const client = await clientPromise;
   await client.connect();
   try {
     const db = client.db("blog");
@@ -57,6 +59,7 @@ export async function getFilteredBlogs(query: string, currentPage: number) {
 }
 
 export async function getUser(email: string) {
+  const client = await clientPromise;
   await client.connect();
   try {
     const db = client.db("blog");

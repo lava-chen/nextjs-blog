@@ -1,9 +1,10 @@
-import siteMetadata from "@/data/siteMetaData";
+import { siteMetadata } from "@/data/siteMetaData";
 import Logo from "@/data/logo.svg";
 import Link from "./Link";
 import ThemeSwitch from "./ThemeSwitch";
 import MobileNav from "./MoblieNav";
 import headerNavLinks from "@/data/headerNavLinks";
+import Image from "next/image";
 
 const Header = () => {
   let headerClass =
@@ -17,7 +18,7 @@ const Header = () => {
       <Link href="/" aria-label={siteMetadata.headerTitle}>
         <div className="flex items-center justify-between">
           <div className="mr-5">
-            <Logo />
+            <Image priority src={Logo} height={32} width={32} alt="Home" />
           </div>
           {typeof siteMetadata.headerTitle === "string" ? (
             <div className="hidden h-6 text-2xl font-semibold sm:block">

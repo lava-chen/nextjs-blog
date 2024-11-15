@@ -4,13 +4,12 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
-import AuthError from "next-auth";
-import client from "@/lib/route"; // 假设您有一个数据库连接模块
+import { AuthError } from "next-auth";
+import clientPromise from "@/lib/route"; // 假设您有一个数据库连接模块
 import { generateTOCFromMarkdown, calculateReadingTime } from "@/lib/utils";
 
-import { ObjectId } from "mongodb";
-
-export async function deleteBlog(id: string) {
+export async function deleteBlog(_id: string) {
+  const client = await clientPromise;
   try {
     // 连接数据库
     await client.connect();
@@ -18,13 +17,13 @@ export async function deleteBlog(id: string) {
     const blogsCollection = database.collection("blogs"); // 替换为您的集合名称
 
     // 执行删除操作
-    const result = await blogsCollection.deleteOne({ _id: new ObjectId(id) });
+    const result = await blogsCollection.deleteOne({ _id });
 
     // 检查删除是否成功
     if (result.deletedCount === 1) {
-      console.log(`成功删除博客，ID: ${id}`);
+      console.log(`成功删除博客，ID: ${_id}`);
     } else {
-      console.log(`未找到 ID 为 ${id} 的博客`);
+      console.log(`未找到 ID 为 ${_id} 的博客`);
     }
   } catch (error) {
     console.error("删除博客时发生错误:", error);
@@ -116,7 +115,7 @@ export async function createBlog(prevState: State, formData: FormData) {
   const { title, content, summary, status, tags, layout, slug } =
     validatedFields.data;
   const date = new Date().toISOString();
-
+  const client = await clientPromise;
   try {
     await client.connect();
     const db = client.db("blog");
@@ -135,6 +134,7 @@ export async function createBlog(prevState: State, formData: FormData) {
     });
     console.log("Blog created successfully.");
   } catch (error) {
+    console.error("Error creating blog:", error); // 记录错误信息
     return {
       message: "Database Error: Failed to Create Blog.",
     };
@@ -154,7 +154,7 @@ export async function authenticate(
     await signIn("credentials", formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch ((error as any).type) {
+      switch (error.type) {
         case "CredentialsSignin":
           return "Invalid credentials.";
         default:

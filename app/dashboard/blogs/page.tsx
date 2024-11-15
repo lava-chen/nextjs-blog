@@ -31,7 +31,7 @@ export default async function Page(props: {
         <CreateBlog />
       </div>
       <Suspense key={query + currentPage} fallback={<BlogTableSkeleton />}>
-        <Table query={query} currentPage={currentPage} />
+        <Table query={query} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

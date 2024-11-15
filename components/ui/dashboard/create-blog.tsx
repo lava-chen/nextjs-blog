@@ -20,7 +20,7 @@ const sampleTags = [
 
 export default function BlogForm() {
   const initialState: State = { message: null, errors: {} };
-  const [state, formAction] = useActionState(createBlog, initialState);
+  const [, formAction] = useActionState(createBlog, initialState);
 
   return (
     <form action={formAction}>
@@ -33,6 +33,7 @@ export default function BlogForm() {
           >
             Blog Title
           </label>
+
           <input
             id="title"
             name="title"

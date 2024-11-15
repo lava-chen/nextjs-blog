@@ -1,6 +1,6 @@
 import SideNav from "@/components/ui/dashboard/sidenav";
 import { lusitana } from "@/components/ui/fonts";
-import siteMetadata from "@/data/siteMetaData";
+import { siteMetadata } from "@/data/siteMetaData";
 import "@/components/ui/globals.css";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

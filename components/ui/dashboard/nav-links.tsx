@@ -1,6 +1,5 @@
 "use client";
 import {
-  UserGroupIcon,
   HomeIcon,
   DocumentTextIcon,
   TagIcon,

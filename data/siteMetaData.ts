@@ -1,4 +1,4 @@
-const siteMetadata = {
+export const siteMetadata = {
   title: "Lava-chen's Blog",
   author: "lava-chen",
   headerTitle: "Lava-chen's Blog",
@@ -97,5 +97,3 @@ const siteMetadata = {
     // },
   },
 };
-
-module.exports = siteMetadata;

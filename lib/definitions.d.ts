@@ -1,10 +1,4 @@
-import type {
-  Markdown,
-  MDX,
-  ImageFieldData,
-  IsoDateTimeString,
-} from "contentlayer2/core";
-import * as Local from "contentlayer2/source-files";
+import type { IsoDateTimeString } from "contentlayer2/core";
 
 export type Blog = {
   /** File path relative to `contentDirPath` */
@@ -16,13 +10,13 @@ export type Blog = {
   lastmod?: IsoDateTimeString | undefined;
   status?: "draft" | "posted";
   summary?: string | undefined;
-  images?: any | undefined;
+  images?: string[] | undefined;
   layout?: string | undefined;
   bibliography?: string | undefined;
   canonicalUrl?: string | undefined;
   /** MDX file body */
   content: string;
-  readingTime: Object;
+  readingTime: object;
   slug: string;
-  toc: Object;
+  toc: object;
 };
