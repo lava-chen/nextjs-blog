@@ -1,14 +1,9 @@
 import { notFound } from "next/navigation";
 import type { Blog } from "@/lib/definitions";
-import { remark } from "remark";
+
 import { getBlogs } from "@/lib/data";
 import React from "react";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import rehypeStringify from "rehype-stringify";
-import remarkGfm from "remark-gfm";
+
 import "katex/dist/katex.min.css";
 
 export default async function Page(props: {
@@ -28,15 +23,7 @@ export default async function Page(props: {
   }
 
   const markdown = await post.content;
-  const processedContent = await remark()
-    .use(remarkParse)
-    .use(remarkMath)
-    .use(remarkRehype)
-    .use(rehypeKatex)
-    .use(rehypeStringify)
-    .use(remarkGfm)
-    .process(markdown);
-  const contentHtml = processedContent.toString();
+
   const publishedDate = new Date(post.date).toLocaleDateString();
 
   return (
@@ -48,7 +35,7 @@ export default async function Page(props: {
       <div className="container flex  justify-center">
         <div
           className="prose dark:prose-dark"
-          dangerouslySetInnerHTML={{ __html: contentHtml }}
+          dangerouslySetInnerHTML={{ __html: markdown }}
         />
       </div>
     </>

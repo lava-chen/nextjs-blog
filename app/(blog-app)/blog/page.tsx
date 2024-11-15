@@ -2,6 +2,16 @@ import { Metadata } from "next";
 import { getBlogs } from "@/lib/data";
 import Link from "@/components/ui/Link";
 
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  date: Date;
+  slug: string;
+  summary: string;
+  tags: string[];
+}
+
 export const metadata: Metadata = {
   title: "Blogs",
 };

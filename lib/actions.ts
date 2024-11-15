@@ -7,19 +7,25 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import clientPromise from "@/lib/route"; // 假设您有一个数据库连接模块
 import { generateTOCFromMarkdown, calculateReadingTime } from "@/lib/utils";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import remarkGfm from "remark-gfm";
+import { remark } from "remark";
+import { ObjectId } from "mongodb";
 
 export async function deleteBlog(_id: string) {
   const client = await clientPromise;
   try {
-    // 连接数据库
     await client.connect();
     const database = client.db("blog");
-    const blogsCollection = database.collection("blogs"); // 替换为您的集合名称
+    const blogsCollection = database.collection("blogs");
+    const objectId = new ObjectId(_id);
+    const result = await blogsCollection.deleteOne({ _id: objectId });
+    revalidatePath("/dashboard/blogs");
 
-    // 执行删除操作
-    const result = await blogsCollection.deleteOne({ _id });
-
-    // 检查删除是否成功
     if (result.deletedCount === 1) {
       console.log(`成功删除博客，ID: ${_id}`);
     } else {
@@ -28,7 +34,6 @@ export async function deleteBlog(_id: string) {
   } catch (error) {
     console.error("删除博客时发生错误:", error);
   } finally {
-    // 关闭数据库连接
     await client.close();
   }
 }
@@ -83,21 +88,24 @@ export async function createBlog(prevState: State, formData: FormData) {
 
   const contentFileString = await fetch(fileURL)
     .then((response) => response.text())
-    .then((text) => {
-      URL.revokeObjectURL(fileURL);
-      return text;
-    })
-    .catch((error) => {
-      console.error("文件读取失败:", error);
-      throw error;
-    });
+    .finally(() => URL.revokeObjectURL(fileURL));
 
+  const processedContent = await remark()
+    .use(remarkParse)
+    .use(remarkMath)
+    .use(remarkRehype)
+    .use(rehypeKatex)
+    .use(rehypeStringify)
+    .use(remarkGfm)
+    .process(contentFileString);
+
+  const contentHtml = processedContent.toString();
   const toc = generateTOCFromMarkdown(contentFileString);
   const readingTime = calculateReadingTime(contentFileString);
-  // Validate form using Zod
+
   const validatedFields = CreateBlog.safeParse({
     title: formData.get("title"),
-    content: contentFileString,
+    content: contentHtml,
     summary: formData.get("summary"),
     status: formData.get("status"),
     tags: formData.getAll("tags"),
@@ -116,6 +124,7 @@ export async function createBlog(prevState: State, formData: FormData) {
     validatedFields.data;
   const date = new Date().toISOString();
   const client = await clientPromise;
+
   try {
     await client.connect();
     const db = client.db("blog");
@@ -133,17 +142,14 @@ export async function createBlog(prevState: State, formData: FormData) {
       readingTime,
     });
     console.log("Blog created successfully.");
+    revalidatePath("/dashboard/blogs");
+    redirect("/dashboard/blogs");
   } catch (error) {
-    console.error("Error creating blog:", error); // 记录错误信息
-    return {
-      message: "Database Error: Failed to Create Blog.",
-    };
+    console.error("Error creating blog:", error);
+    return { message: "Database Error: Failed to Create Blog." };
   } finally {
     await client.close();
   }
-
-  revalidatePath("/dashboard/blogs");
-  redirect("/dashboard/blogs");
 }
 
 export async function authenticate(

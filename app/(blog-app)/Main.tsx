@@ -1,11 +1,19 @@
 import Link from "@/components/ui/Link";
 import { siteMetadata } from "@/data/siteMetaData";
-import { getBlogs } from "@/lib/data";
+import clientPromise from "@/lib/route";
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  date: Date;
+  slug: string;
+  summary: string;
+  tags: string[];
+}
 
 const MAX_DISPLAY = 5;
 
-export default async function Home() {
-  const blogs = await getBlogs();
+export default async function Home({ blogs }: { blogs: Blog[] }) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -101,4 +109,22 @@ export default async function Home() {
       )} */}
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const client = await clientPromise;
+  await client.connect();
+  try {
+    const db = client.db("blog");
+    const blogs = await db.collection("blogs").find({}).toArray();
+
+    return {
+      props: {
+        blogs: JSON.parse(JSON.stringify(blogs)),
+      },
+    };
+  } catch (error) {
+    console.error("获取博客列表时出错:", error);
+    return { props: { blogs: [] } };
+  }
 }
