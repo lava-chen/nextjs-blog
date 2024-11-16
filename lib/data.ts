@@ -29,8 +29,6 @@ export async function getBlogsPage(query: string) {
   } catch (error) {
     console.error("获取博客页数时出错:", error); // 错误处理
     throw new Error("无法获取博客页数"); // 抛出错误
-  } finally {
-    await client.close(); // 在 finally 块中关闭连接
   }
 }
 
@@ -49,8 +47,9 @@ export async function getFilteredBlogs(query: string) {
       })
       .toArray();
     return blogs;
-  } finally {
-    await client.close(); // 在 finally 块中关闭连接
+  } catch (error) {
+    console.error("获取博客列表时出错:", error);
+    throw error;
   }
 }
 
@@ -61,7 +60,8 @@ export async function getUser(email: string) {
     const db = client.db("blog");
     const user = await db.collection("users").findOne({ email });
     return user;
-  } finally {
-    await client.close(); // 在 finally 块中关闭连接
+  } catch (error) {
+    console.error("获取用户信息时出错:", error);
+    throw error;
   }
 }

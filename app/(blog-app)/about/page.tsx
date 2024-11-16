@@ -21,7 +21,7 @@ export default function AboutPage() {
       <div className="about divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            About Me 🌟
+            About Me
           </h1>
           <p className="text-base text-gray-500 dark:text-gray-400 md:text-lg md:leading-7">
             进一步了解我和这个博客的目的。
@@ -62,10 +62,7 @@ export default function AboutPage() {
 
           <div className="prose max-w-none pb-8 dark:prose-dark xl:col-span-2">
             <p></p>
-            <h2>
-              大家好！ <Emoji symbol="🚀" label="火箭" />
-              我是 lava-chen
-            </h2>
+            <h2> 🚀 大家好！我是 lava-chen </h2>
             <p>
               我是一名个人开发者，热爱编程，喜欢分享知识。我目前在读大学，专注于学习各种计算机科学知识以及其他科学知识，同时会搭建各种个人感兴趣的项目。
             </p>
@@ -77,10 +74,10 @@ export default function AboutPage() {
               </p>
             </blockquote>
             <p>
-              我创办这个博客是为了记录和分享我在软件工程师之路上所获取的知识和实践经验。
+              我创办这个博客是为了记录和分享我在自学计算机技术之路上所获取的知识和实践经验。
             </p>
             <p>
-              写作和笔记帮助我巩固对新概念和技术的理解。我希望我的博客能成为同为网络开发者的有用资源
+              写作和笔记帮助我巩固对新概念和技术的理解。我希望我的博客能成为同为开发者的有用资源
               🌐。
             </p>
             <p>

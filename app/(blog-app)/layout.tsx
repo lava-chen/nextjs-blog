@@ -6,7 +6,6 @@ import { ThemeProviders } from "./theme-provider";
 import SectionContainer from "@/components/ui/SectionContainer";
 import { siteMetadata } from "@/data/siteMetaData";
 import Footer from "@/components/ui/footer";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
@@ -43,6 +42,7 @@ export default function RootLayout({
           <SectionContainer>
             <Header />
             <main className="mb-auto ">{children}</main>
+            <Analytics />
             <Footer />
           </SectionContainer>
         </ThemeProviders>

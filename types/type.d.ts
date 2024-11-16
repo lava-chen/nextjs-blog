@@ -22,3 +22,4 @@ declare module "layouts" {
   export const PostLayout: any;
   export const PostBanner: any;
 }
+declare module 'lodash/find';
