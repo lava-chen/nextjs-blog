@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "@/components/ui/Link";
+import { getBlogs } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Blogs",
@@ -8,8 +9,7 @@ export const metadata: Metadata = {
 const MAX_DISPLAY = 5;
 
 const Page = async () => {
-  const res = await fetch("http://localhost:3000/api/blogs");
-  const blogs = await res.json();
+  const blogs = await getBlogs();
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">

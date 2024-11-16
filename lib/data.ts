@@ -19,16 +19,12 @@ export async function getBlogsPage(query: string) {
   try {
     await client.connect();
     const db = client.db("blog");
-
-    // 获取满足条件的博客数量
     const count = await db.collection("blogs").countDocuments({
       $or: [
         { title: { $regex: query, $options: "i" } }, // 忽略大小写的标题匹配
         { content: { $regex: query, $options: "i" } }, // 忽略大小写的内容匹配
       ],
     });
-
-    // 返回计算出的页数
     return Math.ceil(count / ITEMS_PER_PAGE);
   } catch (error) {
     console.error("获取博客页数时出错:", error); // 错误处理
