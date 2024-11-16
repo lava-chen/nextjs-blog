@@ -8,11 +8,7 @@ export const metadata: Metadata = {
 const MAX_DISPLAY = 5;
 
 const Page = async () => {
-  const res = await fetch(
-    `${
-      process.env.VERCEL_PROJECT_PRODUCTION_URL || "http://localhost:3000"
-    }/api/blogs`
-  );
+  const res = await fetch("http://localhost:3000/api/blogs");
   const blogs = await res.json();
   return (
     <>

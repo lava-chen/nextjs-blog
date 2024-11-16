@@ -5,11 +5,7 @@ import React from "react";
 const MAX_DISPLAY = 5;
 
 export default async function Home() {
-  const res = await fetch(
-    `${
-      process.env.VERCEL_PROJECT_PRODUCTION_URL || "http://localhost:3000"
-    }/api/blogs`
-  );
+  const res = await fetch("http://localhost:3000/api/blogs");
   const blogs = await res.json();
   return (
     <>
