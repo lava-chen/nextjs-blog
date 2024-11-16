@@ -6,6 +6,8 @@ import { ThemeProviders } from "./theme-provider";
 import SectionContainer from "@/components/ui/SectionContainer";
 import { siteMetadata } from "@/data/siteMetaData";
 import Footer from "@/components/ui/footer";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +36,6 @@ export default function RootLayout({
         media="(prefers-color-scheme: dark)"
         content="#000"
       />
-
       <body
         className={`${lusitana.className} antialiased bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white`}
       >
