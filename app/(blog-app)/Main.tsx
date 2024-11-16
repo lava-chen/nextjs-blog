@@ -6,7 +6,9 @@ const MAX_DISPLAY = 5;
 
 export default async function Home() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000"}/api/blogs`
+    `${
+      process.env.VERCEL_PROJECT_PRODUCTION_URL || "http://localhost:3000"
+    }/api/blogs`
   );
   const blogs = await res.json();
   return (
