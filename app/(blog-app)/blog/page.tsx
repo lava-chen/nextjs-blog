@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { getBlogs } from "@/lib/data";
 import Link from "@/components/ui/Link";
 
 export const metadata: Metadata = {
