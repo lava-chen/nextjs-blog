@@ -2,7 +2,7 @@ export const siteMetadata = {
   title: "Lava-chen's Blog",
   author: "lava-chen",
   headerTitle: "Lava-chen's Blog",
-  description: "A blog created with Next.js and Tailwind.css",
+  description: "目前博客还在搭建完善中，若想获得更多信息可以点击上方Notes",
   language: "en-us",
   occupation: "Personal Developer",
   school: "Hohai University",
