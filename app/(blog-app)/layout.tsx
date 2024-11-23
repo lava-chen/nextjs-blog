@@ -35,6 +35,11 @@ export default function RootLayout({
         media="(prefers-color-scheme: dark)"
         content="#000"
       />
+      <script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id="75bcfa41-73a0-4fd4-a6fe-4d18220d5c57"
+      ></script>
       <body
         className={`${lusitana.className} antialiased bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white`}
       >
