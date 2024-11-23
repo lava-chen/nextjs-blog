@@ -7,6 +7,7 @@ import SectionContainer from "@/components/ui/SectionContainer";
 import { siteMetadata } from "@/data/siteMetaData";
 import Footer from "@/components/ui/footer";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
@@ -48,6 +49,7 @@ export default function RootLayout({
             <Header />
             <main className="mb-auto ">{children}</main>
             <Analytics />
+            <SpeedInsights />
             <Footer />
           </SectionContainer>
         </ThemeProviders>
